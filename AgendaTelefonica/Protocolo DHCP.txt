@@ -1,0 +1,37 @@
+Más de un puerto del switch configurar al mismo tiempo
+Switch_A(config)#interface range f0/x1-xn
+
+Protocolo DHCP
+-IP Automatico para cada PC segun su segmento de RED
+
+Paso 1: Configurar la IP de las VLAN en el switch principal: 
+SW_PPLA(config)#interface vlan 10
+SW_PPLA(config-if)#
+SW_PPLA(config-if)#ip address 10.0.0.10 255.0.0.0
+SW_PPLA(config-if)#exit
+SW_PPLA(config)#inter
+SW_PPLA(config)#interface vlan 20
+SW_PPLA(config-if)#
+SW_PPLA(config-if)#ip address 20.0.0.10 255.0.0.0
+
+Paso 2: Configurar un DHCP para cada VLAN 
+SW_PPLA(config)#ip dhcp pool v10
+SW_PPLA(dhcp-config)#network 10.0.0.0 255.0.0.0
+SW_PPLA(dhcp-config)#defaul
+SW_PPLA(dhcp-config)#default-router 10.0.0.10
+SW_PPLA(dhcp-config)#exit
+SW_PPLA(config)#ip dhcp pool v20
+SW_PPLA(dhcp-config)#network 20.0.0.0 255.0.0.0
+SW_PPLA(dhcp-config)#def
+SW_PPLA(dhcp-config)#default-router 20.0.0.10
+SW_PPLA(dhcp-config)#exit
+
+Paso 3: Excluir Direcciones
+SW_PPLA(config)#ip dhcp excluded-address 20.0.0.1 20.0.0.50
+SW_PPLA(config)#ip dhcp excluded-address 10.0.0.1 10.0.0.50
+
+Rotuing the IP 
+Activar:
+SW_PPLA(config)#ip routing
+Desactivar
+SW_PPLA(config)#no ip routing
